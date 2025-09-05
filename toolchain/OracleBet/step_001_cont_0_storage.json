@@ -1,0 +1,22 @@
+{
+  "prim": "Pair",
+  "args": [
+    { "int": "1000" },
+    {
+      "prim": "Pair",
+      "args": [
+        { "prim": "None" },
+        {
+          "prim": "Pair",
+          "args": [
+            { "prim": "None" },
+            {
+              "prim": "Pair",
+              "args": [ { "prim": "False" }, { "prim": "Pair", "args": [ { "prim": "None" }, { "prim": "Pair", "args": [ { "prim": "False" }, { "prim": "None" } ] } ] } ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

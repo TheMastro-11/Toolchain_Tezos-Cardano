@@ -1,0 +1,8 @@
+{
+    "OracleBet": {
+        "Entrypoint": "withdraw",
+        "TotalCost": 535,
+        "Weight": 103,
+        "Hash": "onhZ7kNV9e4VMprLVkzBgGtj9sA2KXM2B8DQ7RgfxdN49ZLU93V"
+    }
+}

@@ -1,0 +1,279 @@
+parameter (or (or (pair %deposit (address %oracle) (address %player2)) (unit %deposit2)) (or (address %election) (unit %withdraw)));
+storage   (pair (nat %deadline) (pair (option %oracle address) (pair (option %player1 address) (pair (bool %player1Deposit) (pair (option %player2 address) (pair (bool %player2Deposit) (option %winner address)))))));
+code
+  {
+    UNPAIR;     # @parameter : @storage
+    IF_LEFT
+      {
+        IF_LEFT
+          {
+            # == deposit ==
+            # player2 = sp.Some(params.player2) # @parameter%deposit : @storage
+            DUP;        # @parameter%deposit : @parameter%deposit : @storage
+            CDR;        # address : @parameter%deposit : @storage
+            SOME;       # option address : @parameter%deposit : @storage
+            SWAP;       # @parameter%deposit : option address : @storage
+            # oracle = sp.Some(params.oracle) # @parameter%deposit : option address : @storage
+            CAR;        # address : option address : @storage
+            SOME;       # option address : option address : @storage
+            # if self.data.player1 == None: # option address : option address : @storage
+            NONE address; # option address : option address : option address : @storage
+            DUP 4;      # @storage : option address : option address : option address : @storage
+            GET 5;      # option address : option address : option address : option address : @storage
+            COMPARE;    # int : option address : option address : @storage
+            EQ;         # bool : option address : option address : @storage
+            IF
+              {
+                # assert sp.amount == sp.tez(1), "Amount incorrect, must be 1 tez" # option address : option address : @storage
+                PUSH mutez 1000000; # mutez : option address : option address : @storage
+                AMOUNT;     # @amount : mutez : option address : option address : @storage
+                COMPARE;    # int : option address : option address : @storage
+                EQ;         # bool : option address : option address : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "Amount incorrect, must be 1 tez"; # string : option address : option address : @storage
+                    FAILWITH;   # FAILED
+                  }; # option address : option address : @storage
+                # self.data.player1 = sp.Some(sp.sender) # option address : option address : @storage
+                DIG 2;      # @storage : option address : option address
+                SENDER;     # @sender : @storage : option address : option address
+                SOME;       # option address : @storage : option address : option address
+                UPDATE 5;   # @storage : option address : option address
+                # self.data.player1Deposit = True # @storage : option address : option address
+                PUSH bool True; # bool : @storage : option address : option address
+                UPDATE 7;   # @storage : option address : option address
+                DUG 2;      # option address : option address : @storage
+                # assert not oracle.unwrap_some() == sp.sender, "You can't be the oracle" # option address : option address : @storage
+                SENDER;     # @sender : option address : option address : @storage
+                DUP 2;      # option address : @sender : option address : option address : @storage
+                IF_NONE
+                  {
+                    PUSH int 26; # int : @sender : option address : option address : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : @sender : option address : option address : @storage
+                COMPARE;    # int : option address : option address : @storage
+                EQ;         # bool : option address : option address : @storage
+                IF
+                  {
+                    PUSH string "You can't be the oracle"; # string : option address : option address : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # option address : option address : @storage
+                # self.data.oracle = oracle # option address : option address : @storage
+                DIG 2;      # @storage : option address : option address
+                SWAP;       # option address : @storage : option address
+                UPDATE 3;   # @storage : option address
+                SWAP;       # option address : @storage
+                # self.data.player2 = player2 # option address : @storage
+                UPDATE 9;   # @storage
+              }
+              {
+                PUSH string "Error, entrypoint already called"; # string : option address : option address : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+          }
+          {
+            DROP;       # @storage
+            # == deposit2 ==
+            # if self.data.player2 != None: # @storage
+            NONE address; # option address : @storage
+            DUP 2;      # @storage : option address : @storage
+            GET 9;      # option address : option address : @storage
+            COMPARE;    # int : @storage
+            NEQ;        # bool : @storage
+            IF
+              {
+                # assert sp.sender == self.data.player2.unwrap_some(), "You are not player 2" # @storage
+                DUP;        # @storage : @storage
+                GET 9;      # option address : @storage
+                IF_NONE
+                  {
+                    PUSH int 38; # int : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : @storage
+                SENDER;     # @sender : @some : @storage
+                COMPARE;    # int : @storage
+                EQ;         # bool : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "You are not player 2"; # string : @storage
+                    FAILWITH;   # FAILED
+                  }; # @storage
+                # assert sp.amount == sp.tez(1), "Amount incorrect, must be 1 tez" # @storage
+                PUSH mutez 1000000; # mutez : @storage
+                AMOUNT;     # @amount : mutez : @storage
+                COMPARE;    # int : @storage
+                EQ;         # bool : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "Amount incorrect, must be 1 tez"; # string : @storage
+                    FAILWITH;   # FAILED
+                  }; # @storage
+                # self.data.player2 = sp.Some(sp.sender) # @storage
+                SENDER;     # @sender : @storage
+                SOME;       # option address : @storage
+                UPDATE 9;   # @storage
+                # self.data.player2Deposit = True # @storage
+                PUSH bool True; # bool : @storage
+                UPDATE 11;  # @storage
+              }
+              {
+                PUSH string "Error, wait for player1 deposit first"; # string : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+          }; # @storage
+        NIL operation; # list operation : @storage
+      }
+      {
+        IF_LEFT
+          {
+            # == election ==
+            # assert sp.sender == self.data.oracle.unwrap_some(), "You are not the oracle" # @parameter%election : @storage
+            DUP 2;      # @storage : @parameter%election : @storage
+            GET 3;      # option address : @parameter%election : @storage
+            IF_NONE
+              {
+                PUSH int 57; # int : @parameter%election : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @some : @parameter%election : @storage
+            SENDER;     # @sender : @some : @parameter%election : @storage
+            COMPARE;    # int : @parameter%election : @storage
+            EQ;         # bool : @parameter%election : @storage
+            IF
+              {}
+              {
+                PUSH string "You are not the oracle"; # string : @parameter%election : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%election : @storage
+            # assert self.data.player1Deposit == True and self.data.player2Deposit == True, "1(2) player(s) didn't deposit yet" # @parameter%election : @storage
+            PUSH bool True; # bool : @parameter%election : @storage
+            DUP 3;      # @storage : bool : @parameter%election : @storage
+            GET 7;      # bool : bool : @parameter%election : @storage
+            COMPARE;    # int : @parameter%election : @storage
+            EQ;         # bool : @parameter%election : @storage
+            IF
+              {
+                PUSH bool True; # bool : @parameter%election : @storage
+                DUP 3;      # @storage : bool : @parameter%election : @storage
+                GET 11;     # bool : bool : @parameter%election : @storage
+                COMPARE;    # int : @parameter%election : @storage
+                EQ;         # bool : @parameter%election : @storage
+              }
+              {
+                PUSH bool False; # bool : @parameter%election : @storage
+              }; # bool : @parameter%election : @storage
+            IF
+              {}
+              {
+                PUSH string "1(2) player(s) didn't deposit yet"; # string : @parameter%election : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%election : @storage
+            # assert sp.level >= self.data.deadline, "You have to wait for deadline" # @parameter%election : @storage
+            DUP 2;      # @storage : @parameter%election : @storage
+            CAR;        # nat : @parameter%election : @storage
+            LEVEL;      # @level : nat : @parameter%election : @storage
+            COMPARE;    # int : @parameter%election : @storage
+            GE;         # bool : @parameter%election : @storage
+            IF
+              {}
+              {
+                PUSH string "You have to wait for deadline"; # string : @parameter%election : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%election : @storage
+            # self.data.winner = sp.Some(_winner) # @parameter%election : @storage
+            SOME;       # option address : @storage
+            UPDATE 12;  # @storage
+            NIL operation; # list operation : @storage
+          }
+          {
+            DROP;       # @storage
+            # == withdraw ==
+            # assert sp.sender == self.data.player1.unwrap_some() or sp.sender == self.data.player2.unwrap_some(), "You are not a player" # @storage
+            DUP;        # @storage : @storage
+            GET 5;      # option address : @storage
+            IF_NONE
+              {
+                PUSH int 49; # int : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @some : @storage
+            SENDER;     # @sender : @some : @storage
+            COMPARE;    # int : @storage
+            EQ;         # bool : @storage
+            IF
+              {
+                PUSH bool True; # bool : @storage
+              }
+              {
+                DUP;        # @storage : @storage
+                GET 9;      # option address : @storage
+                IF_NONE
+                  {
+                    PUSH int 49; # int : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : @storage
+                SENDER;     # @sender : @some : @storage
+                COMPARE;    # int : @storage
+                EQ;         # bool : @storage
+              }; # bool : @storage
+            IF
+              {}
+              {
+                PUSH string "You are not a player"; # string : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+            # assert not self.data.winner == None, "The oracle didn't select any winner yet" # @storage
+            NONE address; # option address : @storage
+            DUP 2;      # @storage : option address : @storage
+            GET 12;     # option address : option address : @storage
+            COMPARE;    # int : @storage
+            EQ;         # bool : @storage
+            IF
+              {
+                PUSH string "The oracle didn't select any winner yet"; # string : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @storage
+            # assert sp.sender == self.data.winner.unwrap_some(), "You are not the winner" # @storage
+            DUP;        # @storage : @storage
+            GET 12;     # option address : @storage
+            IF_NONE
+              {
+                PUSH int 51; # int : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @some : @storage
+            SENDER;     # @sender : @some : @storage
+            COMPARE;    # int : @storage
+            EQ;         # bool : @storage
+            IF
+              {}
+              {
+                PUSH string "You are not the winner"; # string : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+            # sp.send(sp.sender, sp.balance) # @storage
+            NIL operation; # list operation : @storage
+            SENDER;     # @sender : list operation : @storage
+            CONTRACT unit; # option (contract unit) : list operation : @storage
+            IF_NONE
+              {
+                PUSH int 53; # int : list operation : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @some : list operation : @storage
+            BALANCE;    # @balance : @some : list operation : @storage
+            UNIT;       # unit : @balance : @some : list operation : @storage
+            TRANSFER_TOKENS; # operation : list operation : @storage
+            CONS;       # list operation : @storage
+          }; # list operation : @storage
+      }; # list operation : @storage
+    PAIR;       # pair (list operation) @storage
+  };

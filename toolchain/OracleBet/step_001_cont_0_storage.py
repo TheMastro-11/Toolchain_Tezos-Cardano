@@ -1,0 +1,1 @@
+sp.record(deadline = 1000, oracle = None, player1 = None, player1Deposit = False, player2 = None, player2Deposit = False, winner = None)

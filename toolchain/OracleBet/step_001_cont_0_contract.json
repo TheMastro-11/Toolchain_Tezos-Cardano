@@ -1,0 +1,265 @@
+[
+  {
+    "prim": "storage",
+    "args": [
+      {
+        "prim": "pair",
+        "args": [
+          { "prim": "nat", "annots": [ "%deadline" ] },
+          {
+            "prim": "pair",
+            "args": [
+              { "prim": "option", "args": [ { "prim": "address" } ], "annots": [ "%oracle" ] },
+              {
+                "prim": "pair",
+                "args": [
+                  { "prim": "option", "args": [ { "prim": "address" } ], "annots": [ "%player1" ] },
+                  {
+                    "prim": "pair",
+                    "args": [
+                      { "prim": "bool", "annots": [ "%player1Deposit" ] },
+                      {
+                        "prim": "pair",
+                        "args": [
+                          { "prim": "option", "args": [ { "prim": "address" } ], "annots": [ "%player2" ] },
+                          {
+                            "prim": "pair",
+                            "args": [ { "prim": "bool", "annots": [ "%player2Deposit" ] }, { "prim": "option", "args": [ { "prim": "address" } ], "annots": [ "%winner" ] } ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prim": "parameter",
+    "args": [
+      {
+        "prim": "or",
+        "args": [
+          {
+            "prim": "or",
+            "args": [
+              { "prim": "pair", "args": [ { "prim": "address", "annots": [ "%oracle" ] }, { "prim": "address", "annots": [ "%player2" ] } ], "annots": [ "%deposit" ] },
+              { "prim": "unit", "annots": [ "%deposit2" ] }
+            ]
+          },
+          { "prim": "or", "args": [ { "prim": "address", "annots": [ "%election" ] }, { "prim": "unit", "annots": [ "%withdraw" ] } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "prim": "code",
+    "args": [
+      [
+        { "prim": "UNPAIR" },
+        {
+          "prim": "IF_LEFT",
+          "args": [
+            [
+              {
+                "prim": "IF_LEFT",
+                "args": [
+                  [
+                    { "prim": "DUP" },
+                    { "prim": "CDR" },
+                    { "prim": "SOME" },
+                    { "prim": "SWAP" },
+                    { "prim": "CAR" },
+                    { "prim": "SOME" },
+                    { "prim": "NONE", "args": [ { "prim": "address" } ] },
+                    { "prim": "DUP", "args": [ { "int": "4" } ] },
+                    { "prim": "GET", "args": [ { "int": "5" } ] },
+                    { "prim": "COMPARE" },
+                    { "prim": "EQ" },
+                    {
+                      "prim": "IF",
+                      "args": [
+                        [
+                          { "prim": "PUSH", "args": [ { "prim": "mutez" }, { "int": "1000000" } ] },
+                          { "prim": "AMOUNT" },
+                          { "prim": "COMPARE" },
+                          { "prim": "EQ" },
+                          {
+                            "prim": "IF",
+                            "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "Amount incorrect, must be 1 tez" } ] }, { "prim": "FAILWITH" } ] ]
+                          },
+                          { "prim": "DIG", "args": [ { "int": "2" } ] },
+                          { "prim": "SENDER" },
+                          { "prim": "SOME" },
+                          { "prim": "UPDATE", "args": [ { "int": "5" } ] },
+                          { "prim": "PUSH", "args": [ { "prim": "bool" }, { "prim": "True" } ] },
+                          { "prim": "UPDATE", "args": [ { "int": "7" } ] },
+                          { "prim": "DUG", "args": [ { "int": "2" } ] },
+                          { "prim": "SENDER" },
+                          { "prim": "DUP", "args": [ { "int": "2" } ] },
+                          { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "26" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                          { "prim": "COMPARE" },
+                          { "prim": "EQ" },
+                          {
+                            "prim": "IF",
+                            "args": [ [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "You can't be the oracle" } ] }, { "prim": "FAILWITH" } ], [] ]
+                          },
+                          { "prim": "DIG", "args": [ { "int": "2" } ] },
+                          { "prim": "SWAP" },
+                          { "prim": "UPDATE", "args": [ { "int": "3" } ] },
+                          { "prim": "SWAP" },
+                          { "prim": "UPDATE", "args": [ { "int": "9" } ] }
+                        ],
+                        [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "Error, entrypoint already called" } ] }, { "prim": "FAILWITH" } ]
+                      ]
+                    }
+                  ],
+                  [
+                    { "prim": "DROP" },
+                    { "prim": "NONE", "args": [ { "prim": "address" } ] },
+                    { "prim": "DUP", "args": [ { "int": "2" } ] },
+                    { "prim": "GET", "args": [ { "int": "9" } ] },
+                    { "prim": "COMPARE" },
+                    { "prim": "NEQ" },
+                    {
+                      "prim": "IF",
+                      "args": [
+                        [
+                          { "prim": "DUP" },
+                          { "prim": "GET", "args": [ { "int": "9" } ] },
+                          { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "38" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                          { "prim": "SENDER" },
+                          { "prim": "COMPARE" },
+                          { "prim": "EQ" },
+                          { "prim": "IF", "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "You are not player 2" } ] }, { "prim": "FAILWITH" } ] ] },
+                          { "prim": "PUSH", "args": [ { "prim": "mutez" }, { "int": "1000000" } ] },
+                          { "prim": "AMOUNT" },
+                          { "prim": "COMPARE" },
+                          { "prim": "EQ" },
+                          {
+                            "prim": "IF",
+                            "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "Amount incorrect, must be 1 tez" } ] }, { "prim": "FAILWITH" } ] ]
+                          },
+                          { "prim": "SENDER" },
+                          { "prim": "SOME" },
+                          { "prim": "UPDATE", "args": [ { "int": "9" } ] },
+                          { "prim": "PUSH", "args": [ { "prim": "bool" }, { "prim": "True" } ] },
+                          { "prim": "UPDATE", "args": [ { "int": "11" } ] }
+                        ],
+                        [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "Error, wait for player1 deposit first" } ] }, { "prim": "FAILWITH" } ]
+                      ]
+                    }
+                  ]
+                ]
+              },
+              { "prim": "NIL", "args": [ { "prim": "operation" } ] }
+            ],
+            [
+              {
+                "prim": "IF_LEFT",
+                "args": [
+                  [
+                    { "prim": "DUP", "args": [ { "int": "2" } ] },
+                    { "prim": "GET", "args": [ { "int": "3" } ] },
+                    { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "57" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                    { "prim": "SENDER" },
+                    { "prim": "COMPARE" },
+                    { "prim": "EQ" },
+                    { "prim": "IF", "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "You are not the oracle" } ] }, { "prim": "FAILWITH" } ] ] },
+                    { "prim": "PUSH", "args": [ { "prim": "bool" }, { "prim": "True" } ] },
+                    { "prim": "DUP", "args": [ { "int": "3" } ] },
+                    { "prim": "GET", "args": [ { "int": "7" } ] },
+                    { "prim": "COMPARE" },
+                    { "prim": "EQ" },
+                    {
+                      "prim": "IF",
+                      "args": [
+                        [
+                          { "prim": "PUSH", "args": [ { "prim": "bool" }, { "prim": "True" } ] },
+                          { "prim": "DUP", "args": [ { "int": "3" } ] },
+                          { "prim": "GET", "args": [ { "int": "11" } ] },
+                          { "prim": "COMPARE" },
+                          { "prim": "EQ" }
+                        ],
+                        [ { "prim": "PUSH", "args": [ { "prim": "bool" }, { "prim": "False" } ] } ]
+                      ]
+                    },
+                    {
+                      "prim": "IF",
+                      "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "1(2) player(s) didn't deposit yet" } ] }, { "prim": "FAILWITH" } ] ]
+                    },
+                    { "prim": "DUP", "args": [ { "int": "2" } ] },
+                    { "prim": "CAR" },
+                    { "prim": "LEVEL" },
+                    { "prim": "COMPARE" },
+                    { "prim": "GE" },
+                    {
+                      "prim": "IF",
+                      "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "You have to wait for deadline" } ] }, { "prim": "FAILWITH" } ] ]
+                    },
+                    { "prim": "SOME" },
+                    { "prim": "UPDATE", "args": [ { "int": "12" } ] },
+                    { "prim": "NIL", "args": [ { "prim": "operation" } ] }
+                  ],
+                  [
+                    { "prim": "DROP" },
+                    { "prim": "DUP" },
+                    { "prim": "GET", "args": [ { "int": "5" } ] },
+                    { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "49" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                    { "prim": "SENDER" },
+                    { "prim": "COMPARE" },
+                    { "prim": "EQ" },
+                    {
+                      "prim": "IF",
+                      "args": [
+                        [ { "prim": "PUSH", "args": [ { "prim": "bool" }, { "prim": "True" } ] } ],
+                        [
+                          { "prim": "DUP" },
+                          { "prim": "GET", "args": [ { "int": "9" } ] },
+                          { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "49" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                          { "prim": "SENDER" },
+                          { "prim": "COMPARE" },
+                          { "prim": "EQ" }
+                        ]
+                      ]
+                    },
+                    { "prim": "IF", "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "You are not a player" } ] }, { "prim": "FAILWITH" } ] ] },
+                    { "prim": "NONE", "args": [ { "prim": "address" } ] },
+                    { "prim": "DUP", "args": [ { "int": "2" } ] },
+                    { "prim": "GET", "args": [ { "int": "12" } ] },
+                    { "prim": "COMPARE" },
+                    { "prim": "EQ" },
+                    {
+                      "prim": "IF",
+                      "args": [ [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "The oracle didn't select any winner yet" } ] }, { "prim": "FAILWITH" } ], [] ]
+                    },
+                    { "prim": "DUP" },
+                    { "prim": "GET", "args": [ { "int": "12" } ] },
+                    { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "51" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                    { "prim": "SENDER" },
+                    { "prim": "COMPARE" },
+                    { "prim": "EQ" },
+                    { "prim": "IF", "args": [ [], [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "You are not the winner" } ] }, { "prim": "FAILWITH" } ] ] },
+                    { "prim": "NIL", "args": [ { "prim": "operation" } ] },
+                    { "prim": "SENDER" },
+                    { "prim": "CONTRACT", "args": [ { "prim": "unit" } ] },
+                    { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "53" } ] }, { "prim": "FAILWITH" } ], [] ] },
+                    { "prim": "BALANCE" },
+                    { "prim": "UNIT" },
+                    { "prim": "TRANSFER_TOKENS" },
+                    { "prim": "CONS" }
+                  ]
+                ]
+              }
+            ]
+          ]
+        },
+        { "prim": "PAIR" }
+      ]
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+{"1":{
+    "entrypoint" : "start",
+    "wallet" : 1,
+    "amount" : 1
+},
+
+"2":{
+    "entrypoint" : "bid",
+    "wallet" : 2,
+    "amount" : 10
+}}

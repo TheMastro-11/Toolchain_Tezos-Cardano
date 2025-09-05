@@ -1,0 +1,8 @@
+Creating contract KT1TezoooozzSmartPyzzSTATiCzzzwwBFA1
+ -> (Pair 1000 (Pair None (Pair None (Pair False (Pair None (Pair False None))))))
+file OracleBet/step_001_cont_0_storage.tz
+file OracleBet/step_001_cont_0_storage.json
+file OracleBet/step_001_cont_0_storage.py
+file OracleBet/step_001_cont_0_types.py
+file OracleBet/step_001_cont_0_contract.tz contract OracleBet
+file OracleBet/step_001_cont_0_contract.json contract OracleBet
