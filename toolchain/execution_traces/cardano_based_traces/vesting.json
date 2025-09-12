@@ -1,0 +1,105 @@
+{
+  "trace_title": "vesting_traces",
+  "trace_actors": [
+    {
+      "beneficiary": "bob"
+    },
+    {
+      "beneficiary": "carol"
+    }
+  ],
+  "trace_execution": [
+    {
+      "sequence_id": "1",
+      "function_name": "release",
+      "waiting_time": "0",
+      "actors": [
+        "beneficiary",
+        "vesting_info account"
+      ],
+      "parameters": [
+        {
+          "start_timestamp": "1700050000",
+          "duration": "31536000",
+          "amount": "10000000",
+          "release_amount": "2500000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "2",
+      "function_name": "release",
+      "waiting_time": "0",
+      "actors": [
+        "beneficiary",
+        "vesting_info account"
+      ],
+      "parameters": [
+        {
+          "start_timestamp": "1700050000",
+          "duration": "31536000",
+          "amount": "10000000",
+          "release_amount": "2500000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "3",
+      "function_name": "release",
+      "waiting_time": "0",
+      "actors": [
+        "beneficiary",
+        "vesting_info account"
+      ],
+      "parameters": [
+        {
+          "start_timestamp": "1700055000",
+          "duration": "15768000",
+          "amount": "5000000",
+          "release_amount": "1000000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "4",
+      "function_name": "release",
+      "waiting_time": "0",
+      "actors": [
+        "beneficiary",
+        "vesting_info account"
+      ],
+      "parameters": [
+        {
+          "start_timestamp": "1700055000",
+          "duration": "15768000",
+          "amount": "5000000",
+          "release_amount": "2000000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    }
+  ]
+}

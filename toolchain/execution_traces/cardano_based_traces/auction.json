@@ -1,0 +1,110 @@
+{
+  "trace_title": "auction_traces",
+  "trace_actors": [
+    {
+      "seller": "alice"
+    },
+    {
+      "best_bidder": "bob"
+    },
+    {
+      "best_bidder": "charlie"
+    },
+    {
+      "best_bidder": "eve"
+    }
+  ],
+  "trace_execution": [
+    {
+      "sequence_id": "1",
+      "function_name": "start",
+      "waiting_time": "0",
+      "actors": [
+        "seller",
+        "auction_info account"
+      ],
+      "parameters": [
+        {
+          "state": "NOT_STARTED",
+          "deadline": "1700010000",
+          "starting_bid": "0"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "2",
+      "function_name": "bid",
+      "waiting_time": "0",
+      "actors": [
+        "seller",
+        "best_bidder",
+        "auction_info account"
+      ],
+      "parameters": [
+        {
+          "state": "STARTED",
+          "deadline": "1700015000",
+          "bid_amount": "600000",
+          "current_best_bid": "500000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "3",
+      "function_name": "withdraw",
+      "waiting_time": "0",
+      "actors": [
+        "seller",
+        "best_bidder",
+        "auction_info account"
+      ],
+      "parameters": [
+        {
+          "state": "STARTED",
+          "deadline": "1700017000",
+          "previous_best_bid": "700000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "4",
+      "function_name": "end",
+      "waiting_time": "0",
+      "actors": [
+        "seller",
+        "auction_info account"
+      ],
+      "parameters": [
+        {
+          "state": "OUTBID",
+          "deadline": "1700020000",
+          "final_best_bid": "800000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    }
+  ]
+}

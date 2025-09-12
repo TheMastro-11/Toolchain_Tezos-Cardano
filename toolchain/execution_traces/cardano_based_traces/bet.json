@@ -1,0 +1,87 @@
+{
+  "trace_title": "game_traces",
+  "trace_actors": [
+    {
+      "oracle": "01"
+    },
+    {
+      "player_1": "02"
+    },
+    {
+      "player_2": "03"
+    }
+  ],
+  "trace_execution": [
+    {
+      "sequence_id": "1",
+      "function_name": "join",
+      "waiting_time": "0",
+      "actors": [
+        "player_1",
+        "player_2",
+        "oracle",
+        "game_info account"
+      ],
+      "parameters": [
+        {
+          "wager": 5,
+          "deadline": "1000000",
+          "is_joined": "0"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "2",
+      "function_name": "win",
+      "waiting_time": "0",
+      "actors": [
+        "oracle",
+        "player_1",
+        "player_2",
+        "game_info account"
+      ],
+      "parameters": [
+        {
+          "wager": "5",
+          "deadline": "1000000",
+          "is_joined": "1",
+          "winner": "02"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "3",
+      "function_name": "timeout",
+      "waiting_time": "0",
+      "actors": [
+        "oracle",
+        "game_info account"
+      ],
+      "parameters": [
+        {
+          "wager": "5",
+          "deadline": "500000",
+          "is_joined": "1"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    }
+  ]
+}

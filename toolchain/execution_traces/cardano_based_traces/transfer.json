@@ -1,0 +1,107 @@
+{
+  "trace_title": "transfer_traces",
+  "trace_actors": [
+    {
+      "owner": "alice"
+    },
+    {
+      "owner": "charlie"
+    },
+    {
+      "recipient": "bob"
+    },
+    {
+      "recipient": "diane"
+    }
+  ],
+  "trace_execution": [
+    {
+      "sequence_id": "1",
+      "function_name": "deposit",
+      "waiting_time": "0",
+      "actors": [
+        "owner",
+        "recipient",
+        "transfer_info account"
+      ],
+      "parameters": [
+        {
+          "initialization_amount": "1000000",
+          "amount": "500000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "2",
+      "function_name": "withdraw",
+      "waiting_time": "0",
+      "actors": [
+        "owner",
+        "recipient",
+        "transfer_info account"
+      ],
+      "parameters": [
+        {
+          "initialization_amount": "1000000",
+          "amount": "300000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "3",
+      "function_name": "deposit",
+      "waiting_time": "0",
+      "actors": [
+        "owner",
+        "recipient",
+        "transfer_info account"
+      ],
+      "parameters": [
+        {
+          "initialization_amount": "1500000",
+          "amount": "700000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "4",
+      "function_name": "withdraw",
+      "waiting_time": "0",
+      "actors": [
+        "owner",
+        "recipient",
+        "transfer_info account"
+      ],
+      "parameters": [
+        {
+          "initialization_amount": "1500000",
+          "amount": "400000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    }
+  ]
+}

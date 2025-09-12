@@ -1,0 +1,122 @@
+{
+  "trace_title": "htlc_traces",
+  "trace_actors": [
+    {
+      "committer": "alice"
+    },
+    {
+      "committer": "carol"
+    },
+    {
+      "committer": "eve"
+    },
+    {
+      "committer": "george"
+    },
+    {
+      "receiver": "bob"
+    },
+    {
+      "receiver": "dave"
+    },
+    {
+      "receiver": "frank"
+    },
+    {
+      "receiver": "harry"
+    }
+  ],
+  "trace_execution": [
+    {
+      "sequence_id": "1",
+      "function_name": "reveal",
+      "waiting_time": "0",
+      "actors": [
+        "committer",
+        "receiver",
+        "htlc_info account"
+      ],
+      "parameters": [
+        {
+          "secret_hash": "xyz123",
+          "timeout": "1700030000",
+          "secret": "secret123"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "2",
+      "function_name": "timeout",
+      "waiting_time": "0",
+      "actors": [
+        "committer",
+        "receiver",
+        "htlc_info account"
+      ],
+      "parameters": [
+        {
+          "secret_hash": "abc789",
+          "timeout": "1700035000"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "3",
+      "function_name": "reveal",
+      "waiting_time": "0",
+      "actors": [
+        "committer",
+        "receiver",
+        "htlc_info account"
+      ],
+      "parameters": [
+        {
+          "secret_hash": "def456",
+          "timeout": "1700040000",
+          "secret": "secret789"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    },
+    {
+      "sequence_id": "4",
+      "function_name": "reveal",
+      "waiting_time": "0",
+      "actors": [
+        "committer",
+        "receiver",
+        "htlc_info account"
+      ],
+      "parameters": [
+        {
+          "secret_hash": "ghi012",
+          "timeout": "1700045000",
+          "secret": "secret345"
+        }
+      ],
+      "tezos": {},
+      "cardano": {
+        "file": "./protocol_parameters.json"
+      },
+      "evm": {},
+      "solana": {}
+    }
+  ]
+}
