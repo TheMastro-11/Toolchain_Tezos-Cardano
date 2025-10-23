@@ -2,7 +2,7 @@ import smartpy as sp
     
 @sp.module
 def main():
-    class PriceBet(sp.Contract):
+    class Bet(sp.Contract):
         def __init__(self, owner, oracle, deadline, exchangeRate):
             self.data.owner  = owner
             self.data.oracle = oracle
@@ -60,20 +60,20 @@ def main():
 @sp.add_test()
 def test():
     # set scenario
-    sc = sp.test_scenario("PriceBet", main)
+    sc = sp.test_scenario("Bet", main)
     admin = sp.test_account("admin")
     bettor = sp.test_account("bettor")
     # create object
     oracle = main.Oracle()
-    priceBet = main.PriceBet(admin.address, oracle.address, sp.now, sp.tez(10))
-    priceBet.set_initial_balance(sp.tez(20))
+    Bet = main.Bet(admin.address, oracle.address, sp.now, sp.tez(10))
+    Bet.set_initial_balance(sp.tez(20))
     # start scenarioå
     sc += oracle
-    sc += priceBet
+    sc += Bet
 
     sc.h1("Join")
-    priceBet.join(_sender = bettor, _amount = sp.tez(20))
+    Bet.join(_sender = bettor, _amount = sp.tez(20))
     sc.h1("Win")
     #priceBet.win()
     sc.h1("Timeout")
-    priceBet.timeout(_sender = admin)
+    Bet.timeout(_sender = admin)
